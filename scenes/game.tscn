@@ -18,5 +18,5 @@ current = true
 smoothing_enabled = true
 script = ExtResource( 1 )
 ZOOM_STEP = 1.05
-ZOOM_MAX = 2.0
-ZOOM_MIN = 0.5
+ZOOM_MAX = 4.0
+ZOOM_MIN = 1.0
