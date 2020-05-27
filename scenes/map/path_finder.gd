@@ -4,20 +4,23 @@ class_name PathFinder
 
 var ids: Dictionary = {}
 
-func add_hex(hex: Vector3, weight: int, neighbours: Array):
-	if ids.has(hex):
-		add_point(ids[hex], hex, weight)
-	else:
-		ids[hex] = get_available_point_id()
-		add_point(ids[hex], hex, weight)
-		for neighbour in neighbours:
-			if ids.has(neighbour):
-				connect_points(ids[hex], ids[neighbour])
+func add_hex(pos: Vector3, weight: float, neighbours: Array):
+	if not ids.has(pos):
+		ids[pos] = get_available_point_id()
+	var id = ids[pos]
+	add_point(id, pos, weight)
+	for neighbour in neighbours:
+		if ids.has(neighbour):
+			var neighbour_id = ids[neighbour]
+			if are_points_connected(id, neighbour_id):
+				connect_points(id, neighbour_id)
 
-func remove_hex(hex: Vector3):
-	if ids.has(hex):
-		remove_point(ids[hex])
-		return ids.erase(hex)
+func remove_hex(pos: Vector3):
+	if ids.has(pos):
+		var id = ids[pos]
+		if has_point(id):
+			remove_point(ids[pos])
+		return ids.erase(pos)
 	return false
 
 func get_path(a: Vector3, b: Vector3):

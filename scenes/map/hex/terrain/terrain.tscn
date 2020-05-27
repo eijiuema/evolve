@@ -5,7 +5,7 @@
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
-uniform float outline_width = 2.0;
+uniform float outline_width = 1.25;
 uniform vec4 outline_color: hint_color;
 
 void fragment(){
@@ -36,8 +36,8 @@ void fragment(){
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
-shader_param/outline_width = 0.0
-shader_param/outline_color = null
+shader_param/outline_width = 2.0
+shader_param/outline_color = Color( 0, 0, 0, 1 )
 
 [node name="Terrain" type="Node2D"]
 script = ExtResource( 1 )
@@ -48,3 +48,8 @@ texture = ExtResource( 2 )
 vframes = 14
 hframes = 7
 region_rect = Rect2( 0, 0, 120, 140 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+rect = Rect2( -64, -74, 128, 148 )
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

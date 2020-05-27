@@ -11,14 +11,44 @@ var selected_pos : Vector3
 
 const Hex = preload("res://scenes/map/hex/hex.tscn")
 const Unit = preload("res://scenes/entities/unit.tscn")
+
+var radius = 0
+
+func _ready():
+	randomize()
 		
+func increase_circunference():
+	for pos in get_circunference(Vector3.ZERO, radius):
+		var hex = Hex.instance()
+		hex.terrain = TerrainFactory.make(randi() % TerrainFactory.Types.size())
+		add_hex(pos, hex)
+	radius+=1
+		
+func get_circle(center: Vector3, radius: int):
+	var circle = []
+	for r in radius:
+		circle += get_circunference(center, r)
+	return circle
+		
+
+func get_circunference(center: Vector3, radius: int):
+	var circunference = []
+	var next = center + hex_map.hex_directions[4] * radius
+	circunference.append(next)
+	for direction in hex_map.hex_directions:
+		for i in radius:
+			next += direction
+			circunference.append(next)
+	return circunference
+	
 func add_hex(pos: Vector3, hex: Hex):
 	if hex_map.has_hex(pos):
 		return
 	hex.position = hex_map.hex_to_pixel(pos)
 	hex_container.add_child(hex)
 	hex_map.set_hex(pos, hex)
-	path_finder.add_hex(pos, hex.travel_cost, hex_map.hex_neighbours(pos))
+	if not is_inf(hex.travel_cost):
+		path_finder.add_hex(pos, hex.travel_cost, hex_map.hex_neighbours(pos))
 	
 func remove_hex(pos: Vector3):
 	if not hex_map.has_hex(pos):
@@ -39,7 +69,7 @@ func _input(event):
 				remove_hex(selected_pos)
 			else:
 				var hex = Hex.instance()
-				hex.terrain = TerrainFactory.make(TerrainFactory.Types.GRASS)
+				hex.terrain = TerrainFactory.make(TerrainFactory.Types.WATER)
 				add_hex(selected_pos, hex)
 
 func serialize():

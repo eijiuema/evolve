@@ -10,7 +10,7 @@ script = ExtResource( 3 )
 [node name="HexMap" type="Node" parent="."]
 script = ExtResource( 1 )
 is_flat = false
-size = Vector2( 72, 72 )
+size = Vector2( 69.5, 70 )
 origin = Vector2( 0, 0 )
 
 [node name="HexContainer" type="Node2D" parent="."]

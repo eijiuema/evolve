@@ -193,7 +193,7 @@ func hex_neighbours(hex):
 	var neighbours = []
 	for direction in hex_directions:
 		var neighbour = hex + direction
-		if _hex_grid.has(hex + direction):
+		if _hex_grid.has(neighbour):
 			neighbours.append(neighbour)
 	return neighbours
 
